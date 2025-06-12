@@ -63,7 +63,7 @@ function App() {
   return (
     <div className="flex p-4 h-screen w-screen">
       <div className="w-1/2 p-1">
-        <h1 className="text-3xl font-semibold mb-4 text-center">Code Visualizer</h1>      
+        <h1 className="text-3xl font-semibold mb-4 text-center">Code Area</h1>      
         <div ref={setContainer} className="mb-4" />        
         <div className="flex flex-row gap-4">
           <button 
@@ -89,7 +89,7 @@ function App() {
       </div>
       <div className="w-1/2 p-1">
         <h1 className="text-3xl font-semibold mb-4 text-center">Visualizer</h1>           
-        <div className="p-4 bg-gray-100 rounded-md">
+        <div className="p-4 bg-gray-100 border border-gray-300 h-[70vh] w-full overflow-y-auto">
           {codeOutput && (
             <pre className="whitespace-pre-wrap break-words">
               {codeOutput}
