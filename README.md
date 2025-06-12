@@ -25,3 +25,9 @@ The goal of this project is to enable a visual representation of abstract data s
 ├── docker-compose.yml
 └── README.md
 ```
+
+## Running The Application
+Run the frontend locally
+```bash
+$ npm run dev
+```
