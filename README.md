@@ -27,7 +27,7 @@ The goal of this project is to enable a visual representation of abstract data s
 ```
 
 ## Running The Application
-Run the frontend locally
+The frontend and backend are dockerized and orchestrated by a docker compose file in thee root folder of the project.
 ```bash
-$ npm run dev
+$ docker compose up --build
 ```
