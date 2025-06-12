@@ -1,17 +1,7 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from enum import Enum
-
-
-# ENUM for the language
-class Language(str, Enum):
-    PYTHON = "python"
-    JAVASCRIPT = "javascript"
-
-class RequestCode(BaseModel):
-    code: str
-    language: Language = Language.PYTHON
+from models import RequestRunCode
+from utils import run_code
 
 app = FastAPI()
 
@@ -25,18 +15,20 @@ app.add_middleware(
 )
 
 @app.get("/api/v1/health")
-def health_check():
+def health_check() -> dict:
+    '''
+    @return: dict
+    @description: Check the health of the server
+    '''
     return {"status": " ok"}
 
 @app.post("/api/v1/run")
-def run_code(request: RequestCode):    
-    return {"message": f"Running code: {request.code} in {request.language}"}
+def run_code(request: RequestRunCode) -> dict:    
+    '''
+    @param request: RequestRunCode
+    @return: dict
+    @description: Run the python code and return the return_code, stdout and stderr
+    '''
+    result = run_code(request.code, request.language)    
+    return {"return_code": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
 
-# @app.post("/api/v1/explain")
-# def get_explanation(code: dict):
-#     '''
-#     @param code: dict
-#     @return: str
-#     @description: Get the AI explanation of the code
-#     '''
-#     return {"message": f"AI Explanation goes here for {code}"}
