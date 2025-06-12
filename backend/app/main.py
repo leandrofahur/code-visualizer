@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from models import RequestRunCode
+from models import RequestRunCode, ResponseRunCode
 from utils import run_code
 
 app = FastAPI()
@@ -23,12 +23,13 @@ def health_check() -> dict:
     return {"status": " ok"}
 
 @app.post("/api/v1/run")
-def run_code(request: RequestRunCode) -> dict:    
+def run_provided_code(request: RequestRunCode) -> ResponseRunCode:    
     '''
     @param request: RequestRunCode
     @return: dict
     @description: Run the python code and return the return_code, stdout and stderr
     '''
     result = run_code(request.code, request.language)    
-    return {"return_code": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
+    response = ResponseRunCode(return_code=result.returncode, stdout=result.stdout, stderr=result.stderr)
+    return response
 

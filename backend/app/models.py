@@ -9,3 +9,8 @@ class Language(str, Enum):
 class RequestRunCode(BaseModel):
     code: str
     language: Language = Language.PYTHON
+
+class ResponseRunCode(BaseModel):
+    return_code: int
+    stdout: str
+    stderr: str
