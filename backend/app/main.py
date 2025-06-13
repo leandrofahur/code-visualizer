@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from models import RequestRunCode, ResponseRunCode
+from models import RequestRunCode, ResponseRunCode, RequestDataStructureCode, ResponseDataStructureCode
 from utils import run_code
 
 app = FastAPI()
@@ -26,10 +26,16 @@ def health_check() -> dict:
 def run_provided_code(request: RequestRunCode) -> ResponseRunCode:    
     '''
     @param request: RequestRunCode
-    @return: dict
+    @return: ResponseRunCode
     @description: Run the python code and return the return_code, stdout and stderr
-    '''
+    '''    
+    code = request.code.strip()
+    print(code)
+
+    if not code:
+        return ResponseRunCode(return_code=1, stdout="", stderr="No code provided")
+    
+
     result = run_code(request.code, request.language)  
     response = ResponseRunCode(return_code=result.returncode, stdout=result.stdout, stderr=result.stderr)
     return response
-
