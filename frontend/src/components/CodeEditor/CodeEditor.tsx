@@ -9,7 +9,7 @@ interface CodeEditorProps {
 }
 
 export const CodeEditor = ({ onRunCode, error }: CodeEditorProps) => {
-  const [code, setCode] = useState('# Enter your code here');
+  const [code, setCode] = useState('# Enter your code here\n');
 
   const { setContainer } = useCodeMirror({
     extensions: [python()],
@@ -23,7 +23,17 @@ export const CodeEditor = ({ onRunCode, error }: CodeEditorProps) => {
   const handleRunCode = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    await onRunCode(code);
+    
+    // remove the initial state string from the code
+    const codeWithoutInitialState = code.replace("# Enter your code here\n", "");
+
+    await onRunCode(codeWithoutInitialState);
+  };
+
+  const handleResetCode = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCode("# Enter your code here\n");
   };
 
   return (
@@ -33,6 +43,9 @@ export const CodeEditor = ({ onRunCode, error }: CodeEditorProps) => {
       <div className="flex flex-row gap-4">
         <Button onClick={handleRunCode} variant="primary">
           Run Code
+        </Button>
+        <Button onClick={handleResetCode} variant="secondary">
+          Reset Code
         </Button>
         
       </div>
