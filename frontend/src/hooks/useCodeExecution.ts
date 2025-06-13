@@ -5,9 +5,9 @@ export const useCodeExecution = () => {
   const [codeOutput, setCodeOutput] = useState('');
   const [error, setError] = useState('');
 
-  const runCode = async (code: string) => {
+  const runCode = async (code: string, type: string = "") => {
     try {
-      const data = await api.runCode(code, 'python');
+      const data = await api.runCode(code, 'python', type);
       setCodeOutput(data.stdout || data.stderr || JSON.stringify(data));
       setError('');
     } catch (err) {
